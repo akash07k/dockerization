@@ -38,6 +38,7 @@ services:
 
     environment:
         VIRTUAL_HOST: ${VIRTUAL_HOST}
+        VIRTUAL_PORT: ${HOST_PORT}
         LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
         VIRTUAL_PROTO: ${VIRTUAL_PROTO}
 
