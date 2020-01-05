@@ -37,9 +37,9 @@ services:
     restart: always
 
     environment:
-        VIRTUAL_HOST: techromantica.com
-        LETSENCRYPT_HOST: techromantica.com
-        VIRTUAL_PROTO: https
+        VIRTUAL_HOST: ${VIRTUAL_HOST}
+        LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+        VIRTUAL_PROTO: ${VIRTUAL_PROTO}
 
   postgres:
     image: postgres:10
