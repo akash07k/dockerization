@@ -1,7 +1,7 @@
 # Drupal with PostgreSQL
 #
-# Access via "http://localhost:9080"
-#   (or "http://$(docker-machine ip):9080" if using docker-machine)
+# Access via "http://localhost:${PORT}"
+#   (or "http://$(docker-machine ip):${PORT}" if using docker-machine)
 #
 # During initial Drupal setup,
 # Database type: PostgreSQL
@@ -20,7 +20,7 @@ services:
     container_name: 'drupal'
 
     ports:
-      - 9080:80
+      - ${PORT}:80
 
     expose:
         - 9080
