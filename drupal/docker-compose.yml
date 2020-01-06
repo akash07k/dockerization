@@ -39,8 +39,6 @@ services:
     environment:
         VIRTUAL_HOST: ${VIRTUAL_HOST}
         LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
-        VIRTUAL_PORT: ${HOST_PORT}
-        VIRTUAL_PROTO: ${VIRTUAL_PROTO}
 
   postgres:
     image: postgres:11
