@@ -18,6 +18,7 @@ services:
       - DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable
       - VIRTUAL_HOST=miniflux.techromantica.com
       - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=miniflux.techromantica.com
   db:
     image: postgres:11
     container_name: 'postgres_miniflux'
