@@ -27,9 +27,9 @@ services:
       - POSTGRES_PASSWORD=secret
     restart: always
     volumes:
-      - miniflux-db:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 volumes:
-  miniflux-db:  
+  db:  
 
 networks:
     default:
