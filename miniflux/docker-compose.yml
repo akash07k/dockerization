@@ -1,0 +1,36 @@
+version: '3'
+services:
+  miniflux:
+    image: miniflux/miniflux:latest
+    container_name: 'miniflux'
+    ports:
+      - "8381:8080"
+    expose:
+        - 8381
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://miniflux:secret@db/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - ADMIN_USERNAME=akash
+      - ADMIN_PASSWORD=MiniFlux07
+      - VIRTUAL_HOST=www.miniflux.techromantica.com,miniflux.techromantica.com
+      - LETSENCRYPT_HOST=www.miniflux.techromantica.com,miniflux.techromantica.com
+
+  db:
+    image: postgres:11
+    container_name: 'postgres_miniflux'
+    environment:
+      - POSTGRES_DB=miniflux
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - miniflux-db:/var/lib/postgresql/data
+volumes:
+  miniflux-db:  
+
+networks:
+    default:
+        external:
+            name: nginx-proxy
