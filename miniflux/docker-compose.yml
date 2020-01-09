@@ -8,9 +8,9 @@ services:
     image: miniflux/miniflux:latest
     container_name: 'miniflux'
     ports:
-      - "8381:80"
+      - "8490:8080"
     expose:
-        - 8381
+        - 8490
     restart: always
     depends_on:
       - db
