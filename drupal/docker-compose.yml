@@ -1,0 +1,67 @@
+# Drupal with PostgreSQL
+#
+# Access via "http://localhost:${PORT}"
+#   (or "http://$(docker-machine ip):${PORT}" if using docker-machine)
+#
+# During initial Drupal setup,
+# Database type: PostgreSQL
+# Database name: postgres
+# Database username: postgres
+# Database password: example
+# ADVANCED OPTIONS; Database host: postgres
+
+version: '3'
+
+services:
+
+  drupal:
+    image: drupal:latest
+    container_name: 'drupal'
+    depends_on:
+      - postgres
+    ports:
+      - ${HOST_PORT}:80
+
+    expose:
+        - ${HOST_PORT}
+
+    volumes:
+      - modules:/var/www/html/modules
+      - profiles:/var/www/html/profiles
+      - themes:/var/www/html/themes
+      # this takes advantage of the feature in Docker that a new anonymous
+      # volume (which is what we're creating here) will be initialized with the
+      # existing content of the image at the same location
+      - sites:/var/www/html/sites
+
+    restart: always
+
+    environment:
+        VIRTUAL_HOST: ${VIRTUAL_HOST}
+        LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+
+  postgres:
+    image: postgres:11
+    container_name: 'postgres_drupal'
+    environment:
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_DB: ${POSTGRES_DB}
+
+    volumes:
+        - db_data:/var/lib/postgresql/data
+
+    restart: always
+
+volumes:
+  modules:
+  profiles:
+  themes:
+  sites:
+  db_data:
+
+networks:
+    default:
+        external:
+            name: nginx-proxy
+

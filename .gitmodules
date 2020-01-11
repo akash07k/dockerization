@@ -1,9 +1,0 @@
-[submodule "drupal-docker"]
-	path = drupal-docker
-	url = https://github.com/akash07k/drupal-docker.git
-[submodule "nginx-proxy-le"]
-	path = nginx-proxy-le
-	url = https://github.com/akash07k/nginx-proxy-le.git
-[submodule "miniflux-docker"]
-	path = miniflux-docker
-	url = https://github.com/akash07k/miniflux-docker.git
