@@ -7,3 +7,6 @@
 [submodule "nginx-proxy-le-docker"]
 	path = nginx-proxy-le-docker
 	url = https://github.com/akash07k/nginx-proxy-le-docker.git
+[submodule "squid-docker"]
+	path = squid-docker
+	url = https://github.com/akash07k/squid-docker.git
