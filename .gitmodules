@@ -10,3 +10,6 @@
 [submodule "squid-docker"]
 	path = squid-docker
 	url = https://github.com/akash07k/squid-docker.git
+[submodule "gitea-docker"]
+	path = gitea-docker
+	url = https://github.com/akash07k/gitea-docker.git
