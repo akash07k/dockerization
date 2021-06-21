@@ -13,3 +13,6 @@
 [submodule "gitea-docker"]
 	path = gitea-docker
 	url = https://github.com/akash07k/gitea-docker.git
+[submodule "pihole-docker"]
+	path = pihole-docker
+	url = https://github.com/akash07k/pihole-docker.git
