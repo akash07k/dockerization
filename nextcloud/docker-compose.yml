@@ -3,7 +3,7 @@ version: "3"
 services:
   db:
     image: postgres:alpine
-    container_name: "nextcloud-db"
+    container_name: ${PROJECT_NAME}-DB
     restart: unless-stopped
     volumes:
       - /etc/timezone:/etc/timezone:ro
@@ -18,7 +18,7 @@ services:
 
   app:
     image: nextcloud:latest
-    container_name: "nextcloud-app"
+    container_name: ${PROJECT_NAME}-app
     restart: unless-stopped
     ports:
       - ${HOST_PORT}:80
