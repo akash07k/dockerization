@@ -1,0 +1,3 @@
+#Create user after launching the project:
+docker compose exec linkding python manage.py createsuperuser --username=akash --email=akash.a07k@gmail.com
+
