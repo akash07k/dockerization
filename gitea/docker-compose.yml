@@ -1,0 +1,30 @@
+# Please use this command to generate the .env file with UID and GID:
+# cat default.env | sed 's/UID=1001/UID='$(id -u)'/' | sed 's/GID=1001/GID='$(id -g)'/' > .env
+
+version: "3"
+
+services:
+  server:
+    image: gitea/gitea:latest
+    container_name: "gitea"
+
+    environment:
+      - USER_UID=${UID}
+      - USER_GID=${GID}
+
+    restart: unless-stopped
+
+    volumes:
+      - data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    ports:
+      - "${HOST_PORT}:3000"
+      - "${HOST_SSH_PORT}:22"
+
+volumes:
+  data:
+  timezone:
+  localtime:
+
