@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  app:
+    image: adguard/adguardhome:beta
+    container_name: AdGuardHome
+    ports:
+            - 53:53/tcp
+            - 53:53/udp
+            - {HOST_HTTP_PORT}:80/tcp
+            - {HOST_HTTPS_PORT}:443/tcp
+            - {HOST_HTTPS_PORT}:443/udp
+            - {HOST_ADMIN_PANEL_PORT}:3000/tcp
+            - 853:853/tcp
+            - 784:784/udp
+            - 853:853/udp
+            - 8853:8853/udp
+            - 5443:5443/tcp
+            - 5443:5443/udp
+
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - "workdir:/opt/adguardhome/work"
+      - "confdir:/opt/adguardhome/conf"
+
+    restart: unless-stopped
+
+volumes:
+  workdir:
+  confdir:
+
+

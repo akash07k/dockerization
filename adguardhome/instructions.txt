@@ -1,0 +1,24 @@
+1. 
+Deactivate DNSStubListener and update DNS server address. Create a new file: /etc/systemd/resolved.conf.d/adguardhome.conf (create a /etc/systemd/resolved.conf.d directory if necessary) with the following content:
+[Resolve]
+DNS=127.0.0.1
+DNSStubListener=no
+
+2. 
+Specifying 127.0.0.1 as DNS server address is necessary because otherwise the nameserver will be 127.0.0.53 which doesn't work without DNSStubListener.
+3. 
+Activate another resolv.conf file:
+sudo mv /etc/resolv.conf /etc/resolv.conf.backup
+
+sudo mkdir /etc/systemd/resolved.conf.d
+sudo cp /home/akash/dockerization/adguardhome/adguardhome.conf /etc/systemd/resolved.conf.d/
+sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+4. 
+Restart DNSStubListener:
+sudo systemctl reload-or-restart systemd-resolved
+
+
+Allow ports:
+
+sudo ufw allow 80,443,3000,853,5443/tcp
+sudo ufw allow 443,853,784,8853,5443/udp
