@@ -1,9 +1,9 @@
 # creation rules are evaluated sequentially, the first match wins
 creation_rules:
-        - path_regex: .env$
-          pgp: 'B2E336B26CE07F4444E58F2DF795A00F2B5FCB5D'
+  - path_regex: .env$
+    pgp: "B2E336B26CE07F4444E58F2DF795A00F2B5FCB5D"
 
-        # Finally, if the rules above have not matched, this one is a
-        # catchall that will encrypt the file using PGP
-        # The absence of a path_regex means it will match everything
-        - pgp: 'B2E336B26CE07F4444E58F2DF795A00F2B5FCB5D'
+  # Finally, if the rules above have not matched, this one is a
+  # catchall that will encrypt the file using PGP
+  # The absence of a path_regex means it will match everything
+  - pgp: "B2E336B26CE07F4444E58F2DF795A00F2B5FCB5D"
