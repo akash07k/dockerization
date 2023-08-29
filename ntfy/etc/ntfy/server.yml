@@ -1,0 +1,15 @@
+base-url: "http://ntfy.techromantica.com"
+listen-http: ":80"
+cache-file: "/var/cache/ntfy/cache.db"
+attachment-cache-dir: "/var/cache/ntfy/attachments"
+attachment-total-size-limit: "5G"
+attachment-file-size-limit: "15M"
+attachment-expiry-duration: "3h"
+visitor-attachment-total-size-limit: "100M"
+visitor-attachment-daily-bandwidth-limit: "500M"
+auth-file: "/var/lib/ntfy/user.db"
+auth-default-access: "deny-all"
+# Execute `ntfy user add --role=admin phil` or `ntfy user add phil`
+# Execute `ntfy token add --expires=30d --label="backups" phil`
+
+behind-proxy: true
