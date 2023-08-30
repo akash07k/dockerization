@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Get the directory where the script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# Check if the `.env` file exists
+if [ -f "$SCRIPT_DIR/.env" ]; then
+    # Load the environment variables from the file
+    source "$SCRIPT_DIR/.env"
+    echo ".env file loaded"
+else
+    echo ".env file not found"
+fi
+
 # Define a function to stop a container
 stop_container() {
     local container_name="$1"
@@ -49,7 +61,7 @@ notify() {
     local priority="${3:-low}"  # Set default value "low" if not provided
     
     curl -u "$NTFY_USERNAME:$NTFY_PASSWORD" -H "Priority: $priority" -d "$message" "$url/$action-ntfy"
-    
+
     # Check the exit code of the curl command
     if [ $? -eq 0 ]; then
         echo "Notification sent successfully."
