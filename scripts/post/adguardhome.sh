@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Include the functions file
-source ../functions.sh
+# Get the directory where the script is located
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Include the functions file using an absolute path
+source "$SCRIPT_DIR/../functions.sh"
 
 # Define an array of container names
 containers=("AdGuardHome")
