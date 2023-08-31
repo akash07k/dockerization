@@ -15,7 +15,7 @@ version: '3'
 services:
   app:
     image: drupal:latest
-    container_name: ${PROJECT_NAME}
+    container_name: ${PROJECT_NAME}-app
     depends_on:
       - db
     ports:
@@ -37,7 +37,7 @@ services:
 
   db:
     image: postgres:alpine
-    container_name: drupal-db
+    container_name: ${PROJECT_NAME}-db
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
