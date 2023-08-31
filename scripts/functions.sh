@@ -15,7 +15,8 @@ fi
 # Define a function to stop a container
 stop_container() {
     local container_name="$1"
-    local topic="$2"
+    local should_notify="$2"  # Accept true/false parameter
+    local topic="$3"
     local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
     
     docker stop "$container_name"
@@ -23,17 +24,22 @@ stop_container() {
     # Check the exit code of the container stop command
     if [ $? -eq 0 ]; then
         echo "Docker container '$container_name' stopped successfully."
-        notify "Container '$container_name' has been stopped." "$topic" "$priority"
+        if [ "$should_notify" = "true" ]; then
+            notify "Container '$container_name' has been stopped." "$topic" "$priority"
+        fi
     else
         echo "Failed to stop Docker container '$container_name'."
-        notify "Container '$container_name' could not be stopped." "$topic"
+        if [ "$should_notify" = "true" ]; then
+            notify "Container '$container_name' could not be stopped." "$topic"
+        fi
     fi
 }
 
 # Define a function to start a container
 start_container() {
     local container_name="$1"
-    local topic="$2"
+    local should_notify="$2"  # Accept true/false parameter
+    local topic="$3"
     local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
     
     docker start "$container_name"
@@ -41,10 +47,14 @@ start_container() {
     # Check the exit code of the container start command
     if [ $? -eq 0 ]; then
         echo "Docker container '$container_name' started successfully."
-        notify "Container '$container_name' has been started." "$topic" "$priority"
+        if [ "$should_notify" = "true" ]; then
+            notify "Container '$container_name' has been started." "$topic" "$priority"
+        fi
     else
         echo "Failed to start Docker container '$container_name'."
-        notify "Container '$container_name' could not be started." "$topic"
+        if [ "$should_notify" = "true" ]; then
+            notify "Container '$container_name' could not be started." "$topic"
+        fi
     fi
 }
 
