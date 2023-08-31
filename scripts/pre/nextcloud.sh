@@ -14,7 +14,6 @@ for container in "${containers[@]}"; do
     stop_container "$container" true "backup" "low"
 done
 
-# Define the DB container name
 project_name="nextcloud"
 db_container_name="nextcloud-db"
 db_username="akash"
