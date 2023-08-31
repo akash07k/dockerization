@@ -3,7 +3,7 @@ version: "3"
 services:
   db:
     image: postgres:alpine
-    container_name: ${PROJECT_NAME}-DB
+    container_name: ${PROJECT_NAME}-db
     restart: unless-stopped
     volumes:
       - /etc/timezone:/etc/timezone:ro
