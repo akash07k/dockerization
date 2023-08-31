@@ -16,7 +16,7 @@ fi
 stop_container() {
     local container_name="$1"
     local action="$2"
-    local priority="${3:-low}"  # Set default value "low" if not provided
+    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
     
     docker stop "$container_name"
     
@@ -34,7 +34,7 @@ stop_container() {
 start_container() {
     local container_name="$1"
     local action="$2"
-    local priority="${3:-low}"  # Set default value "low" if not provided
+    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
     
     docker start "$container_name"
     
@@ -58,7 +58,7 @@ notify() {
     
     local message="$1"
     local action="$2"
-    local priority="${3:-low}"  # Set default value "low" if not provided
+    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
     
     curl -u "$NTFY_USERNAME:$NTFY_PASSWORD" -H "Priority: $priority" -d "$message" "$url/$action-ntfy"
 
