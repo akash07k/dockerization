@@ -11,5 +11,5 @@ containers=("squid")
 
 # Iterate through the container names and stop each container
 for container in "${containers[@]}"; do
-    stop_container "$container" "backup" "low"
+    stop_container "$container" true "backup" "low"
 done
