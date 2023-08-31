@@ -7,7 +7,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 source "$SCRIPT_DIR/../functions.sh"
 
 # Define an array of container names
-containers=("miniflux-app" "miniflux-db")
+containers=("miniflux-app")
 
 # Iterate through the container names and start each container
 for container in "${containers[@]}"; do
