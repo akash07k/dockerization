@@ -14,14 +14,15 @@ for container in "${containers[@]}"; do
     stop_container "$container" true "backup" "low"
 done
 
-# Define the DB container name
 project_name="miniflux"
 db_container_name="miniflux-db"
+db_username="akash"
+db_name="drupal"
 source_backup_file="/tmp/${project_name}_backup.tar"
 target_backup_file="$HOME/${project_name}_backup.tar"
 
 # Backup the PostgreSQL database inside the container
-docker exec $db_container_name sh -c "pg_dump -U miniflux -w -F t -d miniflux -f ${source_backup_file}"
+docker exec $db_container_name sh -c "pg_dump -U ${db_username} -w -F t -d ${db_name} -f ${source_backup_file}"
 
 # Check if the backup command succeeded
 if [ $? -eq 0 ]; then
@@ -42,4 +43,3 @@ else
     echo "Database backup failed for $project_name."
     notify "Database backup failed for $project_name." "backup"
 fi
-
