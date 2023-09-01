@@ -1,14 +1,14 @@
 # Drupal with PostgreSQL
-#
 # Access via "http://localhost:${PORT}"
 #   (or "http://$(docker-machine ip):${PORT}" if using docker-machine)
 #
 # During initial Drupal setup,
+# execute `docker exec $DB_CONTAINER_NAME psql -U $POSTGRES_USER -d $POSTGRES_DB -c 'CREATE EXTENSION pg_trgm;'`, because Drupal requires "pg_trgm" extension.
 # Database type: PostgreSQL
-# Database name: postgres
-# Database username: postgres
-# Database password: example
-# ADVANCED OPTIONS; Database host: postgres
+# Database name: the value of $POSTGRES_DB
+# Database username: the value of $POSTGRES_USER
+# Database password: the value of $POSTGRES_PASSWORD
+# ADVANCED OPTIONS; Database host: drupal-db (the name of the DB container)
 
 version: '3'
 
