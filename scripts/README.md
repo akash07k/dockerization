@@ -1,5 +1,5 @@
 # Information
-We need to decrypt the `ntfy.env` file to `.env`
+We need to decrypt the `default.env` file to `.env`
 ```
-sops -d ntfy.env > .env
+sops -d default.env > .env
 ```

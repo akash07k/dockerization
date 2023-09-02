@@ -7,7 +7,7 @@ services:
     command:
       - serve
     environment:
-      - TZ=UTC # optional: set desired timezone
+      - TZ=Asia/Kolkata # optional: set desired timezone
     volumes:
       - /var/cache/ntfy:/var/cache/ntfy
       - /var/lib/ntfy:/var/lib/ntfy
