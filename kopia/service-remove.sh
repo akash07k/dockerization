@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Remove the service
-systemctl stop kopia-server
-systemctl disable kopia-server
-rm /etc/systemd/system/kopia-server.service
-systemctl daemon-reload
+sudo systemctl stop kopia-server
+sudo systemctl disable kopia-server
+sudo rm /etc/systemd/system/kopia-server.service
+sudo systemctl daemon-reload
 
 # Run the 'kopia server stop' command
-kopia server stop
+kopia server shutdown --address http://0.0.0.0:51515 --server-username=$KOPIA_USERNAME --server-password=$KOPIA_PASSWORD
 
 # Optionally, you can also delete the service files if they are no longer needed
-rm /usr/lib/systemd/system/kopia-server
-rm /etc/systemd/system/kopia-server
+sudo rm /usr/lib/systemd/system/kopia-server
+sudo rm /etc/systemd/system/kopia-server
