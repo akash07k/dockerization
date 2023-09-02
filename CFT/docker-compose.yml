@@ -7,3 +7,6 @@ services:
     command: tunnel --no-autoupdate run --token $CLOUDFLARE_TOKEN
     restart: unless-stopped
     network_mode: "host"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      
