@@ -23,6 +23,8 @@ sudo tee /etc/systemd/system/kopia-server.service <<EOF
 Description=Kopia Server Service
 
 [Service]
+ExecStartPre=/bin/bash -c 'sudo setcap cap_dac_read_search=+ep /usr/bin/kopia'
+ExecStartPre=/bin/bash -c 'sudo setcap cap_dac_override=+ep /usr/bin/kopia'
 ExecStart=kopia server start --address http://0.0.0.0:51515 --server-username=$KOPIA_USERNAME --server-password=$KOPIA_PASSWORD --enable-actions --refresh-interval=24h --insecure
 Restart=always
 User=akash
