@@ -15,7 +15,7 @@ ExecStart=/usr/local/bin/kopia server start --address 0.0.0.0:51515 --tls-cert-f
 Restart=always
 User=akash
 WorkingDirectory=/home/akash
-Environment=
+Environment="KOPIA_USERNAME=$KOPIA_USERNAME" "KOPIA_PASSWORD=$KOPIA_PASSWORD"
 
 [Install]
 WantedBy=multi-user.target
