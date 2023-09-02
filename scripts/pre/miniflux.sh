@@ -17,7 +17,7 @@ done
 project_name="miniflux"
 db_container_name="miniflux-db"
 db_username="akash"
-db_name="drupal"
+db_name="miniflux"
 source_backup_file="/tmp/${project_name}_backup.tar"
 target_backup_file="$HOME/${project_name}_backup.tar"
 
