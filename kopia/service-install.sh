@@ -11,7 +11,7 @@ cat <<EOF > /etc/systemd/system/kopia-server.service
 Description=Kopia Server Service
 
 [Service]
-ExecStart=/usr/bin/kopia server start --address 0.0.0.0:51515 --tls-cert-file /home/akash/kopia.cert --tls-key-file /home/akash/kopia.key --server-username=\$KOPIA_USERNAME --server-password=\$KOPIA_PASSWORD --enable-actions --refresh-interval=24h
+ExecStart=/usr/bin/kopia server start --address 0.0.0.0:51515 --tls-cert-file /home/akash/kopia.cert --tls-key-file /home/akash/kopia.key --server-username=$KOPIA_USERNAME --server-password=$KOPIA_PASSWORD --enable-actions --refresh-interval=24h
 Restart=always
 User=akash
 WorkingDirectory=/home/akash
