@@ -2,6 +2,7 @@ version: '3'
 services:
   cloudflared:
     image: cloudflare/cloudflared:latest
+    container_name : ${PROJECT_NAME}
     environment:
       - CLOUDFLARE_TOKEN=${CLOUDFLARE_TOKEN}
     command: tunnel --no-autoupdate run --token $CLOUDFLARE_TOKEN
