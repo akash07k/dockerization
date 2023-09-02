@@ -23,7 +23,7 @@ sudo tee /etc/systemd/system/kopia-server.service <<EOF
 Description=Kopia Server Service
 
 [Service]
-ExecStart=/usr/bin/kopia server start --address http://0.0.0.0:51515 --server-username=$KOPIA_USERNAME --server-password=$KOPIA_PASSWORD --enable-actions --refresh-interval=24h --insecure
+ExecStart=kopia server start --address http://0.0.0.0:51515 --server-username=$KOPIA_USERNAME --server-password=$KOPIA_PASSWORD --enable-actions --refresh-interval=24h --insecure
 Restart=always
 User=akash
 WorkingDirectory=/home/akash
