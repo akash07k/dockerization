@@ -7,7 +7,7 @@ sudo rm /etc/systemd/system/kopia-server.service
 sudo systemctl daemon-reload
 
 # Run the 'kopia server stop' command
-kopia server shutdown --address http://0.0.0.0:51515 --server-username=$KOPIA_USERNAME --server-password=$KOPIA_PASSWORD
+kopia server shutdown --address http://0.0.0.0:51515 --server-username=$KOPIA_SERVER_USERNAME --server-password=$KOPIA_SERVER_PASSWORD
 
 # Optionally, you can also delete the service files if they are no longer needed
 sudo rm /usr/lib/systemd/system/kopia-server
