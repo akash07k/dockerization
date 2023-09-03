@@ -16,5 +16,5 @@ db_name="miniflux"
 # Iterate through the container names and stop each container
 for container in "${containers[@]}"; do
     stop_container "$container" true "pre-backup" "low" "Container '$container' has been stopped."
-    backup_postgres_db "$project_name" "$db_container_name" "$db_username" "$db_name" true "backup" "low"
+    backup_postgres_db "$project_name" "$db_container_name" "$db_username" "$db_name" true "pre-backup" "low"
 done
