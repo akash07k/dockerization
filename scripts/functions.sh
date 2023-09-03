@@ -79,3 +79,46 @@ notify() {
         echo "Failed to send notification."
     fi
 }
+
+# Define a function to backup PostgreSQL database
+backup_postgres_db() {
+    local project_name="$1"
+    local db_container_name="$2"
+    local db_username="$3"
+    local db_name="$4"
+    local should_notify="$5"  # Accept true/false parameter
+    local topic="$6"
+    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
+
+    local source_backup_file="/tmp/${project_name}_backup.tar"
+    local target_backup_file="$HOME/${project_name}_backup.tar"
+
+    # Backup the PostgreSQL database inside the container
+    docker exec "$db_container_name" sh -c "pg_dump -U '$db_username' -w -F t -d '$db_name' -f '$source_backup_file'"
+
+    # Check if the backup command succeeded
+    if [ $? -eq 0 ]; then
+        echo "Database backup succeeded."
+
+        # Copy the backup file from the container to the home directory
+        docker cp "$db_container_name:$source_backup_file" "$target_backup_file"
+
+        # Check if the copy command succeeded
+        if [ $? -eq 0 ]; then
+            echo "The backup file path is $target_backup_file."
+            if [ "$should_notify" = "true" ]; then
+                notify "The database backup for $project_name is successful, and the backup file path is $target_backup_file." "backup"
+            fi
+        else
+            echo "Failed to copy the backup file for $project_name."
+            if [ "$should_notify" = "true" ]; then
+                notify "Failed to copy the backup file." "backup"
+            fi
+        fi
+    else
+        echo "Database backup failed for $project_name."
+        if [ "$should_notify" = "true" ]; then
+            notify "Database backup failed for $project_name." "backup"
+        fi
+    fi
+}
