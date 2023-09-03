@@ -11,5 +11,5 @@ containers=("linkding")
 
 # Iterate through the container names and start each container
 for container in "${containers[@]}"; do
-    start_container "$container" true "backup" "low"
+    start_container "$container" true "backup" "low" "Container '$container' has been started."
 done
