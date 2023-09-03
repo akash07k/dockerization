@@ -16,7 +16,7 @@ fi
 stop_container() {
     local container_name="$1"
     local should_notify="$2"  # Accept true/false parameter
-    local topic="$3"
+    local topic="${3:-$NTFY_TOPIC}"  # Set default value from the environment variable if not provided
     local priority="${4:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
     local message="${5:-Container \"$container_name\" has been stopped.}"
     
@@ -34,7 +34,7 @@ stop_container() {
 start_container() {
     local container_name="$1"
     local should_notify="$2"  # Accept true/false parameter
-    local topic="$3"
+    local topic="${3:-$NTFY_TOPIC}"  # Set default value from the environment variable if not provided
     local priority="${4:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
     local message="${5:-Container \"$container_name\" has been started.}"
     
@@ -55,7 +55,7 @@ backup_postgres_db() {
     local db_username="$3"
     local db_name="$4"
     local should_notify="$5"  # Accept true/false parameter
-    local topic="$6"
+    local topic="${6:-$NTFY_TOPIC}"  # Set default value from the environment variable if not provided
     local priority="${7:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
 
     local source_backup_dir="/tmp/${project_name}_backup"
@@ -121,7 +121,7 @@ notify() {
     
     local message="$1"
     local should_notify="$2"  # Accept true/false parameter
-    local topic="$3"
+    local topic="${3:-$NTFY_TOPIC}"  # Set default value from the environment variable if not provided
     local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
     
     echo "$message"
