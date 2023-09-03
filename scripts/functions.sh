@@ -17,13 +17,14 @@ stop_container() {
     local container_name="$1"
     local should_notify="$2"  # Accept true/false parameter
     local topic="$3"
-    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
+    local priority="${4:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
+    local message="${5:-Container \"$container_name\" has been stopped.}"
     
     docker stop "$container_name"
     
     # Check the exit code of the container stop command
     if [ $? -eq 0 ]; then
-        notify "Container '$container_name' has been stopped." "$should_notify" "$topic" "$priority"
+        notify "$message" "$should_notify" "$topic" "$priority"
     else
         notify "Container '$container_name' could not be stopped." "$should_notify" "$topic"  "$priority"
     fi
@@ -34,13 +35,14 @@ start_container() {
     local container_name="$1"
     local should_notify="$2"  # Accept true/false parameter
     local topic="$3"
-    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
+    local priority="${4:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
+    local message="${5:-Container \"$container_name\" has been started.}"
     
     docker start "$container_name"
     
     # Check the exit code of the container start command
     if [ $? -eq 0 ]; then
-        notify "Container '$container_name' has been started." "$should_notify" "$topic" "$priority"
+        notify "$message" "$should_notify" "$topic" "$priority"
     else
         notify "Container '$container_name' could not be started." "$should_notify" "$topic"  "$priority"
     fi
@@ -54,7 +56,7 @@ backup_postgres_db() {
     local db_name="$4"
     local should_notify="$5"  # Accept true/false parameter
     local topic="$6"
-    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
+    local priority="${7:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
 
     local source_backup_dir="/tmp/${project_name}_backup"
     local target_backup_file="$HOME/${project_name}_backup"
