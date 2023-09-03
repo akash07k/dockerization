@@ -127,7 +127,7 @@ notify() {
     echo "$message"
     
     if [ "$should_notify" = "true" ]; then    
-        curl -u "$NTFY_USERNAME:$NTFY_PASSWORD" -H "Priority: $priority" -d "$message" "$url/$topic-ntfy"
+        curl -u "$NTFY_USERNAME:$NTFY_PASSWORD" -H "Priority: $priority" -d "$message" "$url/$topic"
     fi
 
     # Check the exit code of the curl command
