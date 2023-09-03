@@ -9,10 +9,11 @@ Description=Kopia Server Service
 ExecStartPre=/bin/bash -c 'sudo setcap cap_dac_read_search=+ep /usr/bin/kopia'
 ExecStartPre=/bin/bash -c 'sudo setcap cap_dac_override=+ep /usr/bin/kopia'
 ExecStart=kopia server start --address http://0.0.0.0:51515 --enable-actions --refresh-interval=24h --without-password --insecure
+KillMode=process
+StandardOutput=tty
 Restart=always
 User=akash
 WorkingDirectory=/home/akash
-Environment="KOPIA_SERVER_USERNAME=\$KOPIA_SERVER_USERNAME" "KOPIA_PASSWORD=\$KOPIA_PASSWORD"
 
 [Install]
 WantedBy=multi-user.target

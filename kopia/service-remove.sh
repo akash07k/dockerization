@@ -12,3 +12,4 @@ kopia server shutdown --address http://0.0.0.0:51515
 # Optionally, you can also delete the service files if they are no longer needed
 sudo rm /usr/lib/systemd/system/kopia-server
 sudo rm /etc/systemd/system/kopia-server
+sudo systemctl reset-failed
