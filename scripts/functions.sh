@@ -59,7 +59,7 @@ backup_postgres_db() {
     local priority="${7:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
 
     local source_backup_dir="/tmp/${project_name}_backup"
-    local target_backup_file="$HOME/${project_name}_backup"
+    local target_backup_file="$HOME/backups/${project_name}_backup"
 
     # Debugging output
     echo "Source backup dir: $source_backup_dir"
