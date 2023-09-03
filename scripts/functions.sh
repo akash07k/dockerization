@@ -23,15 +23,9 @@ stop_container() {
     
     # Check the exit code of the container stop command
     if [ $? -eq 0 ]; then
-        echo "Docker container '$container_name' stopped successfully."
-        if [ "$should_notify" = "true" ]; then
-            notify "Container '$container_name' has been stopped." "$topic" "$priority"
-        fi
+        notify "Container '$container_name' has been stopped." "$should_notify" "$topic" "$priority"
     else
-        echo "Failed to stop Docker container '$container_name'."
-        if [ "$should_notify" = "true" ]; then
-            notify "Container '$container_name' could not be stopped." "$topic"
-        fi
+        notify "Container '$container_name' could not be stopped." "$should_notify" "$topic"  "$priority"
     fi
 }
 
@@ -46,37 +40,9 @@ start_container() {
     
     # Check the exit code of the container start command
     if [ $? -eq 0 ]; then
-        echo "Docker container '$container_name' started successfully."
-        if [ "$should_notify" = "true" ]; then
-            notify "Container '$container_name' has been started." "$topic" "$priority"
-        fi
+        notify "Container '$container_name' has been started." "$should_notify" "$topic" "$priority"
     else
-        echo "Failed to start Docker container '$container_name'."
-        if [ "$should_notify" = "true" ]; then
-            notify "Container '$container_name' could not be started." "$topic"
-        fi
-    fi
-}
-
-# Define a function to send a notification
-notify() {
-    if [ -z "$NTFY_URL" ]; then
-        local url="ntfy.techromantica.com"
-    else
-        local url="$NTFY_URL"
-    fi
-    
-    local message="$1"
-    local topic="$2"
-    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
-    
-    curl -u "$NTFY_USERNAME:$NTFY_PASSWORD" -H "Priority: $priority" -d "$message" "$url/$topic-ntfy"
-
-    # Check the exit code of the curl command
-    if [ $? -eq 0 ]; then
-        echo "Notification sent successfully."
-    else
-        echo "Failed to send notification."
+        notify "Container '$container_name' could not be started." "$should_notify" "$topic"  "$priority"
     fi
 }
 
@@ -104,10 +70,7 @@ backup_postgres_db() {
         if docker exec "$db_container_name" rm -rf "$source_backup_dir"; then
             echo "Deleted existing source backup directory within the container: $source_backup_dir"
         else
-            echo "Failed to delete existing source backup directory within the container: $source_backup_dir"
-            if [ "$should_notify" = "true" ]; then
-                notify "Failed to delete existing source backup directory within the container." "backup"
-            fi
+            notify "Failed to delete existing source backup directory within the container: $source_backup_dir" "$should_notify" "$topic"  "$priority"
             exit 1
         fi
     else
@@ -120,10 +83,7 @@ backup_postgres_db() {
         if [ $? -eq 0 ]; then
             echo "Created target backup directory: $(dirname "$target_backup_file")"
         else
-            echo "Failed to create target backup directory: $(dirname "$target_backup_file")"
-            if [ "$should_notify" = "true" ]; then
-                notify "Failed to create target backup directory." "backup"
-            fi
+            notify "Failed to create target backup directory: $(dirname "$target_backup_file")" "$should_notify" "$topic"  "$priority"
             exit 1
         fi
     fi
@@ -140,20 +100,38 @@ backup_postgres_db() {
 
         # Check if the copy command succeeded
         if [ $? -eq 0 ]; then
-            echo "The backup file path is $target_backup_file."
-            if [ "$should_notify" = "true" ]; then
-                notify "The database backup for $project_name is successful, and the backup file path is $target_backup_file." "backup"
-            fi
+            notify "The database backup for $project_name is successful, and the backup file path is $target_backup_file." "$should_notify" "$topic"  "$priority"
         else
-            echo "Failed to copy the backup file for $project_name."
-            if [ "$should_notify" = "true" ]; then
-                notify "Failed to copy the backup file." "backup"
-            fi
+            notify "Failed to copy the backup file for $project_name." "$should_notify" "$topic"  "$priority"
         fi
     else
-        echo "Database backup failed for $project_name."
-        if [ "$should_notify" = "true" ]; then
-            notify "Database backup failed for $project_name." "backup"
-        fi
+        notify "Database backup failed for $project_name." "$should_notify" "$topic"  "$priority"
+    fi
+}
+
+# Define a function to send a notification
+notify() {
+    if [ -z "$NTFY_URL" ]; then
+        local url="ntfy.techromantica.com"
+    else
+        local url="$NTFY_URL"
+    fi
+    
+    local message="$1"
+    local should_notify="$2"  # Accept true/false parameter
+    local topic="$3"
+    local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
+    
+    echo "$message"
+    
+    if [ "$should_notify" = "true" ]; then    
+        curl -u "$NTFY_USERNAME:$NTFY_PASSWORD" -H "Priority: $priority" -d "$message" "$url/$topic-ntfy"
+    fi
+
+    # Check the exit code of the curl command
+    if [ $? -eq 0 ]; then
+        echo "Notification sent successfully."
+    else
+        echo "Failed to send notification."
     fi
 }
