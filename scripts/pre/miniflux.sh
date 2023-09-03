@@ -10,7 +10,7 @@ project_name="miniflux"
 # Define an array of container names
 containers=("miniflux-app")
 db_container_name="miniflux-db"
-db_username="akash"
+db_username="miniflux"
 db_name="miniflux"
 
 # Iterate through the container names and stop each container
