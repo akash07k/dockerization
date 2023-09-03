@@ -47,7 +47,6 @@ start_container() {
         notify "Container '$container_name' could not be started." "$should_notify" "$topic"  "$priority"
     fi
 }
-
 # Define a function to backup PostgreSQL database
 backup_postgres_db() {
     local project_name="$1"
@@ -59,7 +58,7 @@ backup_postgres_db() {
     local priority="${7:-$NTFY_PRIORITY}"  # Set default value from the environment variable if not provided
 
     local source_backup_dir="/tmp/${project_name}_backup"
-    local target_backup_file="$HOME/backups/${project_name}_backup"
+    local target_backup_dir="$HOME/backups"
 
     # Debugging output
     echo "Source backup dir: $source_backup_dir"
@@ -79,13 +78,34 @@ backup_postgres_db() {
         echo "Source backup directory does not exist within the container."
     fi
 
-    # Create the target backup directory if it doesn't exist
-    if [ ! -d "$(dirname "$target_backup_file")" ]; then
-        mkdir -p "$(dirname "$target_backup_file")"
-        if [ $? -eq 0 ]; then
-            echo "Created target backup directory: $(dirname "$target_backup_file")"
+    # Debugging output
+    echo "Target backup directory: $target_backup_dir"
+
+    # Check if the target backup directory exists
+    if test -d "$target_backup_dir"; then
+        echo "Target backup directory exists."
+
+        # Debugging: Print the current working directory
+        echo "Current working directory: $(pwd)"
+
+        # Delete the target backup directory
+        if rm -rf "$target_backup_dir"; then
+            echo "Deleted existing target backup directory: $target_backup_dir"
         else
-            notify "Failed to create target backup directory: $(dirname "$target_backup_file")" "$should_notify" "$topic"  "$priority"
+            notify "Failed to delete existing target backup directory: $target_backup_dir" "$should_notify" "$topic" "$priority"
+            exit 1
+        fi
+    else
+        echo "Target backup directory does not exist."
+    fi
+
+    # Create the target backup directory if it doesn't exist
+    if [ ! -d "$target_backup_dir" ]; then
+        mkdir -p "$target_backup_dir"
+        if [ $? -eq 0 ]; then
+            echo "Created target backup directory: $target_backup_dir"
+        else
+            notify "Failed to create target backup directory: $target_backup_dir" "$should_notify" "$topic"  "$priority"
             exit 1
         fi
     fi
@@ -98,11 +118,11 @@ backup_postgres_db() {
         echo "Database backup succeeded."
 
         # Copy the backup file from the container to the home directory
-        docker cp "$db_container_name:$source_backup_dir" "$target_backup_file"
+        docker cp "$db_container_name:$source_backup_dir" "$target_backup_dir"
 
         # Check if the copy command succeeded
         if [ $? -eq 0 ]; then
-            notify "The database backup for $project_name is successful, and the backup file path is $target_backup_file." "$should_notify" "$topic"  "$priority"
+            notify "The database backup for $project_name is successful, and the backup directory is $target_backup_dir." "$should_notify" "$topic"  "$priority"
         else
             notify "Failed to copy the backup file for $project_name." "$should_notify" "$topic"  "$priority"
         fi
