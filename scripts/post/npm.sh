@@ -11,5 +11,5 @@ containers=("npm")
 
 # Iterate through the container names and start each container
 for container in "${containers[@]}"; do
-    start_container "$container" true "backup" "low" "Container '$container' has been started."
+    start_container "$container" true "post-backup" "low" "Container '$container' has been started."
 done

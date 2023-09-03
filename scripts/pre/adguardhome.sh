@@ -11,5 +11,5 @@ containers=("AdGuardHome")
 
 # Iterate through the container names and stop each container
 for container in "${containers[@]}"; do
-    stop_container "$container" true "backup" "low" "Container '$container' has been stopped."
+    stop_container "$container" true "pre-backup" "low" "Container '$container' has been stopped."
 done
