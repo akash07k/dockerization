@@ -90,18 +90,53 @@ backup_postgres_db() {
     local topic="$6"
     local priority="${NTFY_PRIORITY:-low}"  # Set default value "low" if not provided
 
-    local source_backup_file="/tmp/${project_name}_backup.tar"
-    local target_backup_file="$HOME/${project_name}_backup.tar"
+    local source_backup_dir="/tmp/${project_name}_backup"
+    local target_backup_file="$HOME/${project_name}_backup"
+
+    # Debugging output
+    echo "Source backup dir: $source_backup_dir"
+
+    # Check if the source backup directory exists within the container
+    if docker exec "$db_container_name" test -d "$source_backup_dir"; then
+        echo "Source backup directory exists within the container."
+
+        # Delete the source backup directory within the container
+        if docker exec "$db_container_name" rm -rf "$source_backup_dir"; then
+            echo "Deleted existing source backup directory within the container: $source_backup_dir"
+        else
+            echo "Failed to delete existing source backup directory within the container: $source_backup_dir"
+            if [ "$should_notify" = "true" ]; then
+                notify "Failed to delete existing source backup directory within the container." "backup"
+            fi
+            exit 1
+        fi
+    else
+        echo "Source backup directory does not exist within the container."
+    fi
+
+    # Create the target backup directory if it doesn't exist
+    if [ ! -d "$(dirname "$target_backup_file")" ]; then
+        mkdir -p "$(dirname "$target_backup_file")"
+        if [ $? -eq 0 ]; then
+            echo "Created target backup directory: $(dirname "$target_backup_file")"
+        else
+            echo "Failed to create target backup directory: $(dirname "$target_backup_file")"
+            if [ "$should_notify" = "true" ]; then
+                notify "Failed to create target backup directory." "backup"
+            fi
+            exit 1
+        fi
+    fi
 
     # Backup the PostgreSQL database inside the container
-    docker exec "$db_container_name" sh -c "pg_dump -U '$db_username' -w -F t -d '$db_name' -f '$source_backup_file'"
+    docker exec "$db_container_name" sh -c "pg_dump -U $db_username -w -F d -d $db_name -f $source_backup_dir"
 
     # Check if the backup command succeeded
     if [ $? -eq 0 ]; then
         echo "Database backup succeeded."
 
         # Copy the backup file from the container to the home directory
-        docker cp "$db_container_name:$source_backup_file" "$target_backup_file"
+        docker cp "$db_container_name:$source_backup_dir" "$target_backup_file"
 
         # Check if the copy command succeeded
         if [ $? -eq 0 ]; then

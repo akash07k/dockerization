@@ -8,7 +8,7 @@ source "$SCRIPT_DIR/../functions.sh"
 
 project_name="miniflux"
 # Define an array of container names
-containers=("drupal-app")
+containers=("miniflux-app")
 db_container_name="miniflux-db"
 db_username="akash"
 db_name="miniflux"
