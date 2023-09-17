@@ -2,7 +2,7 @@ version: "3"
 
 services:
   app:
-    image: adguard/adguardhome:beta
+    image: adguard/adguardhome:latest
     container_name: ${PROJECT_NAME}
     ports:
       - 53:53/tcp
