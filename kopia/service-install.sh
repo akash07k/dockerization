@@ -8,7 +8,7 @@ Description=Kopia Server Service
 [Service]
 ExecStartPre=/bin/bash -c 'sudo setcap cap_dac_read_search=+ep /usr/bin/kopia'
 ExecStartPre=/bin/bash -c 'sudo setcap cap_dac_override=+ep /usr/bin/kopia'
-ExecStart=kopia server start --address http://0.0.0.0:51515 --enable-actions --refresh-interval=24h --without-password --insecure
+ExecStart=kopia server start --address http://0.0.0.0:51515 --enable-actions --refresh-interval=4h --without-password --insecure
 KillMode=process
 StandardOutput=tty
 Restart=always
